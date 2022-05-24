@@ -30,7 +30,25 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  
+  total_score = 0
+  most_repeating_number = dice.max_by{|i| dice.count(i)}
+  repeat_count = dice.count(most_repeating_number)
+  total_score += most_repeating_number * 100 if repeat_count >= 3 && most_repeating_number != 1
+
+  if dice.empty?
+    return total_score
+  end
+  if dice.include?(1)
+    total_score += 1000 if dice.count(1) >= 3
+    total_score += 100*dice.count(1) if dice.count(1) < 3
+    total_score += 100*(dice.count(1)-3) if dice.count(1) > 3
+  end
+  if dice.include?(5)
+    total_score += 50*dice.count(5) if dice.count(5) < 3
+    total_score += 50*(dice.count(5)-3) if dice.count(5) > 3
+  end
+total_score
 end
 
 class AboutScoringProject < Neo::Koan
